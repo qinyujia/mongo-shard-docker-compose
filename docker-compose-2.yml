@@ -12,6 +12,8 @@ services:
     extra_hosts:
       - "config01:10.10.40.136"
       - "config02:10.10.40.186"
+      - "shard01:10.10.40.136"
+      - "shard02:10.10.40.186"
 
   ## Shards
   shard02:
@@ -23,7 +25,9 @@ services:
       - ./scripts:/scripts
     extra_hosts:
       - "config01:10.10.40.136"
-      - "config02:10.10.40.186"      
+      - "config02:10.10.40.186"  
+      - "shard01:10.10.40.136"
+      - "shard02:10.10.40.186"    
 
   ## Router
   router02:
@@ -35,7 +39,9 @@ services:
       - ./scripts:/scripts
     extra_hosts:
       - "config01:10.10.40.136"
-      - "config02:10.10.40.186"      
+      - "config02:10.10.40.186"  
+      - "shard01:10.10.40.136"
+      - "shard02:10.10.40.186"          
     depends_on:
       - config02
       - shard02
