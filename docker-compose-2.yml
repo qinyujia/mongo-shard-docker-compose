@@ -4,16 +4,26 @@ services:
   ## Config Servers
   config02:
     image: mongo
-    command: mongod --port 27017 --configsvr --replSet configserver --noprealloc --smallfiles --oplogSize 16
+    command: mongod --port 27019 --configsvr --replSet configserver --noprealloc --smallfiles --oplogSize 16
     volumes:
       - ./scripts:/scripts
+    ports:
+      - "37019:27019"  
+    extra_hosts:
+      - "config01:10.10.40.136"
+      - "config02:10.10.40.186"
 
   ## Shards
   shard02:
     image: mongo
-    command: mongod --port 27019 --shardsvr --replSet shard02 --noprealloc --smallfiles --oplogSize 16
+    command: mongod --port 27018 --shardsvr --replSet shard02 --noprealloc --smallfiles --oplogSize 16
+    ports:
+      - "37018:27018"
     volumes:
       - ./scripts:/scripts
+    extra_hosts:
+      - "config01:10.10.40.136"
+      - "config02:10.10.40.186"      
 
   ## Router
   router02:
@@ -23,6 +33,9 @@ services:
       - "37017:27017"
     volumes:
       - ./scripts:/scripts
+    extra_hosts:
+      - "config01:10.10.40.136"
+      - "config02:10.10.40.186"      
     depends_on:
       - config02
       - shard02
