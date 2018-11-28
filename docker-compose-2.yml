@@ -28,7 +28,7 @@ services:
   ## Router
   router02:
     image: mongo
-    command: mongos --port 27017 --configdb configserver/config01:27017,config02:27017 --bind_ip_all
+    command: mongos --port 27017 --configdb configserver/config01:37019,config02:37019 --bind_ip_all
     ports:
       - "37017:27017"
     volumes:
