@@ -3,45 +3,62 @@ services:
 
   ## Config Servers
   config02:
-    image: mongo
-    command: mongod --port 27019 --configsvr --replSet configserver --noprealloc --smallfiles --oplogSize 16
+    image: mongo:3.6.4-jessie
+    command: mongod --port 27018 --configsvr --replSet configserver
+    restart: always
+    network_mode: host
+    ports:
+      - "27018"  
     volumes:
       - ./scripts:/scripts
-    ports:
-      - "37019:27019"  
+      - /mongodb/db:/data/db
+      - /mongodb/configdb:/data/configdb
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone  
     extra_hosts:
-      - "config01:10.10.40.136"
-      - "config02:10.10.40.186"
-      - "shard01:10.10.40.136"
-      - "shard02:10.10.40.186"
+      - "config01:10.40.80.22"
+      - "config02:10.40.80.23"
+      - "shard01:10.40.80.22"
+      - "shard02:10.40.80.23"
 
   ## Shards
   shard02:
-    image: mongo
-    command: mongod --port 27018 --shardsvr --replSet shard02 --noprealloc --smallfiles --oplogSize 16
+    image: mongo:3.6.4-jessie
+    command: mongod --port 27019 --shardsvr --replSet shard02
+    restart: always
+    network_mode: host
     ports:
-      - "37018:27018"
+      - "27019"
     volumes:
       - ./scripts:/scripts
+      - /mongodb/db:/data/db
+      - /mongodb/configdb:/data/configdb
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone      
     extra_hosts:
-      - "config01:10.10.40.136"
-      - "config02:10.10.40.186"  
-      - "shard01:10.10.40.136"
-      - "shard02:10.10.40.186"    
+      - "config01:10.40.80.22"
+      - "config02:10.40.80.23"
+      - "shard01:10.40.80.22"
+      - "shard02:10.40.80.23"   
 
   ## Router
   router02:
-    image: mongo
-    command: mongos --port 27017 --configdb configserver/config01:37019,config02:37019 --bind_ip_all
+    image: mongo:3.6.4-jessie
+    command: mongos --port 27017 --configdb configserver/config01:27018,config02:27018 --bind_ip_all
+    restart: always
     ports:
-      - "37017:27017"
+      - "27017"
     volumes:
       - ./scripts:/scripts
+      - /mongodb/db:/data/db
+      - /mongodb/configdb:/data/configdb
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone      
     extra_hosts:
-      - "config01:10.10.40.136"
-      - "config02:10.10.40.186"  
-      - "shard01:10.10.40.136"
-      - "shard02:10.10.40.186"          
+      - "config01:10.40.80.22"
+      - "config02:10.40.80.23"
+      - "shard01:10.40.80.22"
+      - "shard02:10.40.80.23"          
     depends_on:
       - config02
       - shard02
