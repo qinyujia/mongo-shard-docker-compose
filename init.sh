@@ -1,7 +1,6 @@
 #!/bin/bash
 
-docker-compose exec config01 sh -c "mongo --port 27018 < /scripts/init-configserver.js"
-docker-compose exec shard01 sh -c "mongo --port 27019 < /scripts/init-shard01.js"
-docker-compose exec shard02 sh -c "mongo --port 27019 < /scripts/init-shard02.js"
+docker exec mongos_config01_1 sh -c "mongo --port 27018 < /scripts/init-configserver.js"
+docker exec mongos_shard01_1 sh -c "mongo --port 27019 < /scripts/init-shard01.js"
 sleep 20
-docker-compose exec router sh -c "mongo --port 27017 < /scripts/init-router.js"
+docker exec mongos_router01_1 sh -c "mongo --port 27017 < /scripts/init-router.js"
