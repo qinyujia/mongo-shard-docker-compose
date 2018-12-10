@@ -11,8 +11,8 @@ services:
       - "27018"  
     volumes:
       - ./scripts:/scripts
-      - /mongodb/db:/data/db
-      - /mongodb/configdb:/data/configdb
+      - /mongodb/config02/db:/data/db
+      - /mongodb/config02/configdb:/data/configdb
       - /etc/localtime:/etc/localtime
       - /etc/timezone:/etc/timezone  
     extra_hosts:
@@ -31,8 +31,8 @@ services:
       - "27019"
     volumes:
       - ./scripts:/scripts
-      - /mongodb/db:/data/db
-      - /mongodb/configdb:/data/configdb
+      - /mongodb/shard02/db:/data/db
+      - /mongodb/shard02/configdb:/data/configdb
       - /etc/localtime:/etc/localtime
       - /etc/timezone:/etc/timezone      
     extra_hosts:
@@ -51,8 +51,8 @@ services:
       - "27017"
     volumes:
       - ./scripts:/scripts
-      - /mongodb/db:/data/db
-      - /mongodb/configdb:/data/configdb
+      - /mongodb/router02/db:/data/db
+      - /mongodb/router02/configdb:/data/configdb
       - /etc/localtime:/etc/localtime
       - /etc/timezone:/etc/timezone      
     extra_hosts:
