@@ -1,0 +1,1 @@
+docker exec mongos_config02_1 sh -c "mongo --port 27018 < /scripts/init-database.js"
