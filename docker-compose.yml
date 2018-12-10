@@ -16,10 +16,10 @@ services:
       - /etc/localtime:/etc/localtime
       - /etc/timezone:/etc/timezone  
     extra_hosts:
-      - "config01:10.40.80.22"
-      - "config02:10.40.80.23"
-      - "shard01:10.40.80.22"
-      - "shard02:10.40.80.23"
+      - "config01:10.40.80.25"
+      - "config02:10.40.80.26"
+      - "shard01:10.40.80.25"
+      - "shard02:10.40.80.26"
 
   ## Shards
   shard01:
@@ -36,10 +36,10 @@ services:
       - /etc/localtime:/etc/localtime
       - /etc/timezone:/etc/timezone      
     extra_hosts:
-      - "config01:10.40.80.22"
-      - "config02:10.40.80.23"
-      - "shard01:10.40.80.22"
-      - "shard02:10.40.80.23"   
+      - "config01:10.40.80.25"
+      - "config02:10.40.80.26"
+      - "shard01:10.40.80.25"
+      - "shard02:10.40.80.26"   
 
   ## Router
   router01:
@@ -56,10 +56,10 @@ services:
       - /etc/localtime:/etc/localtime
       - /etc/timezone:/etc/timezone      
     extra_hosts:
-      - "config01:10.40.80.22"
-      - "config02:10.40.80.23"
-      - "shard01:10.40.80.22"
-      - "shard02:10.40.80.23"          
+      - "config01:10.40.80.25"
+      - "config02:10.40.80.26"
+      - "shard01:10.40.80.25"
+      - "shard02:10.40.80.26"          
     depends_on:
       - config01
       - shard01
