@@ -7,21 +7,21 @@ print("----start createCollection imageInfo---");
 db.createCollection("imageInfo")
 sleep(5*1000)
 print(("----start shardCollection imageInfo---");
-sh.shardCollection("imageInfo", { jpaShotTime: 1, jpaDeviceID: 1 })
+sh.shardCollection("viid.imageInfo", { jpaShotTime: 1, jpaDeviceID: 1 })
 sleep(5*1000)
 
 print("----start createCollection face---");
 db.createCollection("face")
 sleep(5*1000)
 print("----start shardCollection face---");
-sh.shardCollection("face", { jpaShotTime: 1, jpaDeviceID: 1 })
+sh.shardCollection("viid.face", { jpaShotTime: 1, jpaDeviceID: 1 })
 sleep(5*1000)
 
 print("----start createCollection motorVehicle---");
 db.createCollection("motorVehicle")
 sleep(5*1000)
 print("----start shardCollection motorVehicle---");
-sh.shardCollection("motorVehicle", { jpaShotTime: 1, jpaDeviceID: 1 })
+sh.shardCollection("viid.motorVehicle", { jpaShotTime: 1, jpaDeviceID: 1 })
 db.printShardingStatus()
 
 function sleep(milliseconds) {
