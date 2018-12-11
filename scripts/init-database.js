@@ -1,26 +1,26 @@
-document.write("----start sharding viid---");
+print("----start sharding viid---");
 sh.enableSharding("viid")
 sleep(5*1000)
 
 use viid
-document.write("----start createCollection imageInfo---");
+print("----start createCollection imageInfo---");
 db.createCollection("imageInfo")
 sleep(5*1000)
-document.write(("----start shardCollection imageInfo---");
+print(("----start shardCollection imageInfo---");
 sh.shardCollection("imageInfo", { jpaShotTime: 1, jpaDeviceID: 1 })
 sleep(5*1000)
 
-document.write("----start createCollection face---");
+print("----start createCollection face---");
 db.createCollection("face")
 sleep(5*1000)
-document.write("----start shardCollection face---");
+print("----start shardCollection face---");
 sh.shardCollection("face", { jpaShotTime: 1, jpaDeviceID: 1 })
 sleep(5*1000)
 
-document.write("----start createCollection motorVehicle---");
+print("----start createCollection motorVehicle---");
 db.createCollection("motorVehicle")
 sleep(5*1000)
-document.write("----start shardCollection motorVehicle---");
+print("----start shardCollection motorVehicle---");
 sh.shardCollection("motorVehicle", { jpaShotTime: 1, jpaDeviceID: 1 })
 db.printShardingStatus()
 
