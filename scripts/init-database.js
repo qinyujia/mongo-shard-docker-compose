@@ -1,8 +1,8 @@
 print("----start sharding viid---");
+use viid
 sh.enableSharding("viid")
 sleep(5*1000)
 
-use viid
 print("----start createCollection imageInfo---");
 db.createCollection("imageInfo")
 sleep(5*1000)
