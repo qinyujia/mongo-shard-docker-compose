@@ -1,4 +1,8 @@
 sh.enableSharding("viid")
 db.createCollection("viid.imageInfo")
 sh.shardCollection("viid.imageInfo", { jpaShotTime: 1, jpaDeviceID: 1 })
+db.createCollection("viid.face")
+sh.shardCollection("viid.face", { jpaShotTime: 1, jpaDeviceID: 1 })
+db.createCollection("viid.motorVehicle")
+sh.shardCollection("viid.motorVehicle", { jpaShotTime: 1, jpaDeviceID: 1 })
 db.printShardingStatus()
