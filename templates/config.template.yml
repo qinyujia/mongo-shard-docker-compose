@@ -1,0 +1,15 @@
+  ## Config Servers
+  config${serverNo}:
+    image: mongo:3.6.4-jessie
+    command: mongod --port 27018 --configsvr --replSet configserver
+    restart: always
+    network_mode: host
+    ports:
+      - "27018"  
+    volumes:
+      - ./scripts:/scripts
+      - /mongodb/config${serverNo}/db:/data/db
+      - /mongodb/config${serverNo}/configdb:/data/configdb
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone  
+    extra_hosts:

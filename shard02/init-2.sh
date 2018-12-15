@@ -6,3 +6,6 @@ docker exec mongos_shard02_1 sh -c "mongo --port 27019 < /scripts/init-shard02.j
 sleep 20
 echo "--------init router--------"
 docker exec mongos_router02_1 sh -c "mongo --port 27017 < /scripts/init-router.js"
+sleep 10
+echo "--------init database--------"
+docker exec mongos_router02_1 sh -c "mongo --port 27017 < /scripts/init-database.js"

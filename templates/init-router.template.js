@@ -1,0 +1,1 @@
+sh.addShard(\"shard${serverNo}/shard${serverNo}:27019\")

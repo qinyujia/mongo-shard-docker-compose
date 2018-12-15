@@ -1,0 +1,15 @@
+  ## Shards
+  shard${serverNo}:
+    image: mongo:3.6.4-jessie
+    command: mongod --port 27019 --shardsvr --replSet shard${serverNo}
+    restart: always
+    network_mode: host
+    ports:
+      - "27019"
+    volumes:
+      - ./scripts:/scripts
+      - /mongodb/shard${serverNo}/db:/data/db
+      - /mongodb/shard${serverNo}/configdb:/data/configdb
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone      
+    extra_hosts:
