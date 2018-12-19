@@ -12,7 +12,6 @@ extraHosts="\n"
 configPrex="config"
 shardPrex="shard"
 FINAL=`echo ${MongoShardDir: -1}`
-echo $FINAL
 if [ $FINAL == "/" ]
     then
         CUT=${MongoShardDir%/*}     
@@ -20,7 +19,6 @@ else
     CUT=$MongoShardDir      
 fi
 MongoShardDir=$CUT
-echo $MongoShardDir
 
 echo '-----GENERATE CONFIG FILES-----'
 echo '-----1 GENERATE DOCKER COMPOSE-----'
@@ -68,7 +66,9 @@ echo '-----1.3 MERGE INTO ONE DOCKER COMPOSE-----'
 for ((i=0;i<${#ipListArr[@]};i++));
 do
     ip=${ipListArr[$i]}
-    cat ./templates/head.template.yml ./${ip}/config.yml ./${ip}/shard.yml ./${ip}/router.yml > ./${ip}/docker-compose.yml    
+    cat ./templates/head.template.yml ./${ip}/config.yml ./${ip}/shard.yml ./${ip}/router.yml > ./${ip}/docker-compose.yml   
+    cmd=$(printf 'mkdir -p ./%s/scripts' ${ip})
+    `$cmd` 
     serverCount=$[$serverCount+1]; 
 done 
 serverCount=$[$serverCount-1]
@@ -89,14 +89,14 @@ do
     serverNo=$i
     ip=${ipListArr[$i]}
     # init-shard
-    printf "rs.initiate(\n" >> ./${ip}/init-shard.js
-    printf "   {\n" >> ./${ip}/init-shard.js
-    printf "      _id: \"shard${serverNo}\",\n" >> ./${ip}/init-shard.js
-    printf "      members: [\n" >> ./${ip}/init-shard.js
+    printf "rs.initiate(\n" >> ./${ip}/scripts/init-shard.js
+    printf "   {\n" >> ./${ip}/scripts/init-shard.js
+    printf "      _id: \"shard${serverNo}\",\n" >> ./${ip}/scripts/init-shard.js
+    printf "      members: [\n" >> ./${ip}/scripts/init-shard.js
     printf "         { _id: ${i}, host : \"shard${i}:27019\" },\n" >> ./${ip}/scripts/init-shard.js 
-    printf "      ]\n" >> ./${ip}/init-shard.js 
-    printf "   }\n" >> ./${ip}/init-shard.js 
-    printf ")\n" >> ./${ip}/init-shard.js        
+    printf "      ]\n" >> ./${ip}/scripts/init-shard.js 
+    printf "   }\n" >> ./${ip}/scripts/init-shard.js 
+    printf ")\n" >> ./${ip}/scripts/init-shard.js        
 done 
 
 
@@ -104,18 +104,18 @@ echo '-----2.3 GENERATE INIT CONFIG SERVER SCRIPT-----'
 serverNo=$i
 ip=${ipListArr[$i]}
 # init-configserver
-printf "rs.initiate(\n" >> ./${ipListArr[$serverCount]}/init-configserver.js
-printf "   {\n" >> ./${ipListArr[$serverCount]}/init-configserver.js
-printf "      _id: \"configserver\",\n" >> ./${ipListArr[$serverCount]}/init-configserver.js
-printf "      configsvr: true,\n" >> ./${ipListArr[$serverCount]}/init-configserver.js
-printf "      members: [\n" >> ./${ipListArr[$serverCount]}/init-configserver.js
+printf "rs.initiate(\n" >> ./${ipListArr[$serverCount]}/scripts/init-configserver.js
+printf "   {\n" >> ./${ipListArr[$serverCount]}/scripts/init-configserver.js
+printf "      _id: \"configserver\",\n" >> ./${ipListArr[$serverCount]}/scripts/init-configserver.js
+printf "      configsvr: true,\n" >> ./${ipListArr[$serverCount]}/scripts/init-configserver.js
+printf "      members: [\n" >> ./${ipListArr[$serverCount]}/scripts/init-configserver.js
 for ((j=0;j<${#ipListArr[@]};j++));
 do
     printf "         { _id: ${j}, host : \"config${j}:27018\" },\n" >> ./${ipListArr[$serverCount]}/scripts/init-configserver.js
 done  
-printf "      ]\n" >> ./${ipListArr[$serverCount]}/init-configserver.js 
-printf "   }\n" >> ./${ipListArr[$serverCount]}/init-configserver.js 
-printf ")\n" >> ./${ipListArr[$serverCount]}/init-configserver.js        
+printf "      ]\n" >> ./${ipListArr[$serverCount]}/scripts/init-configserver.js 
+printf "   }\n" >> ./${ipListArr[$serverCount]}/scripts/init-configserver.js 
+printf ")\n" >> ./${ipListArr[$serverCount]}/scripts/init-configserver.js        
 
 echo '-----2.4 GENERATE INIT DATABASE SCRIPT-----'
 cp ./templates/init-database.template.js ./${ipListArr[$serverCount]}/scripts/init-database.js
