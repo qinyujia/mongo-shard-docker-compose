@@ -80,7 +80,7 @@ do
     serverNo=$i
     ip=${ipListArr[$i]}
     # init-router
-    printf "sh.addShard(\"shard${serverNo}/shard${serverNo}:27019\")\n" >> ./${ipListArr[$serverCount]}/init-router.js
+    printf "sh.addShard(\"shard${serverNo}/shard${serverNo}:27019\")\n" >> ./${ipListArr[$serverCount]}/scripts/init-router.js
 done 
     
 echo '-----2.2 GENERATE INIT SHARD SCRIPT-----'
@@ -93,7 +93,7 @@ do
     printf "   {\n" >> ./${ip}/init-shard.js
     printf "      _id: \"shard${serverNo}\",\n" >> ./${ip}/init-shard.js
     printf "      members: [\n" >> ./${ip}/init-shard.js
-    printf "         { _id: ${i}, host : \"shard${i}:27019\" },\n" >> ./${ip}/init-shard.js 
+    printf "         { _id: ${i}, host : \"shard${i}:27019\" },\n" >> ./${ip}/scripts/init-shard.js 
     printf "      ]\n" >> ./${ip}/init-shard.js 
     printf "   }\n" >> ./${ip}/init-shard.js 
     printf ")\n" >> ./${ip}/init-shard.js        
@@ -111,14 +111,14 @@ printf "      configsvr: true,\n" >> ./${ipListArr[$serverCount]}/init-configser
 printf "      members: [\n" >> ./${ipListArr[$serverCount]}/init-configserver.js
 for ((j=0;j<${#ipListArr[@]};j++));
 do
-    printf "         { _id: ${j}, host : \"config${j}:27018\" },\n" >> ./${ipListArr[$serverCount]}/init-configserver.js
+    printf "         { _id: ${j}, host : \"config${j}:27018\" },\n" >> ./${ipListArr[$serverCount]}/scripts/init-configserver.js
 done  
 printf "      ]\n" >> ./${ipListArr[$serverCount]}/init-configserver.js 
 printf "   }\n" >> ./${ipListArr[$serverCount]}/init-configserver.js 
 printf ")\n" >> ./${ipListArr[$serverCount]}/init-configserver.js        
 
 echo '-----2.4 GENERATE INIT DATABASE SCRIPT-----'
-cp ./templates/init-database.template.js ./${ipListArr[$serverCount]}/init-database.js
+cp ./templates/init-database.template.js ./${ipListArr[$serverCount]}/scripts/init-database.js
 
 echo '-----3 GENERATE INIT SHELL-----'
 for ((i=0;i<${#ipListArr[@]};i++));
