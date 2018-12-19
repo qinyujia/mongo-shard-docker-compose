@@ -11,6 +11,16 @@ serverCount=0
 extraHosts="\n"
 configPrex="config"
 shardPrex="shard"
+FINAL=`echo ${MongoShardDir: -1}`
+echo $FINAL
+if [ $FINAL == "/" ]
+    then
+        CUT=${MongoShardDir%/*}     
+else
+    CUT=$MongoShardDir      
+fi
+MongoShardDir=$CUT
+echo $MongoShardDir
 
 echo '-----GENERATE CONFIG FILES-----'
 echo '-----1 GENERATE DOCKER COMPOSE-----'
@@ -46,7 +56,6 @@ do
 	extraHosts+="      - "
 	extraHosts+="${shardPrex}${serverNo}:${ip}\n"
 done	
-echo $extraHosts
 for ((i=0;i<${#ipListArr[@]};i++));
 do
     ip=${ipListArr[$i]}
@@ -63,7 +72,6 @@ do
     serverCount=$[$serverCount+1]; 
 done 
 serverCount=$[$serverCount-1]
-echo $serverCount
 
 echo '-----2 GENERATE INIT SCRIPT-----'
 echo '-----2.1 GENERATE INIT ROUTER SCRIPT-----'
@@ -85,7 +93,7 @@ do
     printf "   {\n" >> ./${ip}/init-shard.js
     printf "      _id: \"shard${serverNo}\",\n" >> ./${ip}/init-shard.js
     printf "      members: [\n" >> ./${ip}/init-shard.js
-    printf "         { _id: ${j}, host : \"shard${j}:27019\" },\n" >> ./${ip}/init-shard.js 
+    printf "         { _id: ${i}, host : \"shard${i}:27019\" },\n" >> ./${ip}/init-shard.js 
     printf "      ]\n" >> ./${ip}/init-shard.js 
     printf "   }\n" >> ./${ip}/init-shard.js 
     printf ")\n" >> ./${ip}/init-shard.js        

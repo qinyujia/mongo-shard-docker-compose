@@ -8,8 +8,8 @@
       - "27018"  
     volumes:
       - ./scripts:/scripts
-      - /mongodb/config${serverNo}/db:/data/db
-      - /mongodb/config${serverNo}/configdb:/data/configdb
+      - ${MongoShardDir}/config${serverNo}/db:/data/db
+      - ${MongoShardDir}/config${serverNo}/configdb:/data/configdb
       - /etc/localtime:/etc/localtime
       - /etc/timezone:/etc/timezone  
     extra_hosts:
